@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Просмотр юзера</title>
+    </head>
+    <body>
+        <div th:replace="header::header"></div>
+        <p>
+            <span>ID</span>
+            <span th:text="${user.getId()}"></span>
+        </p>
+        <p>
+            <span>Имя</span>
+            <span th:text="${user.getFirstName()}"></span>
+        </p>
+        <p>
+            <span>Фамилия</span>
+            <span th:text="${user.getLastName()}"></span>
+        </p>
+    </body>
+</html>

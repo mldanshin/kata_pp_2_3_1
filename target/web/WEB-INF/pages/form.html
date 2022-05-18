@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <form th:fragment="form (action, id, firstName, lastName)" th:action="@{${action}}" method="post">
+            <input th:if="${id != null}" name="id" type="hidden" th:value="${id}" />
+            <label for="input-first-name">Имя</label>
+            <input id="input-first-name" name="firstName" type="text" placeholder="Введите имя" th:value="${firstName}" maxlength="255" autofocus required />
+            <label for="input-last-name">Фамилия</label>
+            <input id="input-last-name" name="lastName" type="text" placeholder="Введите фамилию" th:value="${lastName}" maxlength="255" required />
+            <input type="submit" value="Сохранить" />
+        </form>
+    </body>
+</html>
