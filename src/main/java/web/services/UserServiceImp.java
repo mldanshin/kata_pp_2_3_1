@@ -1,6 +1,5 @@
 package web.services;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import web.dao.UserDao;
 import web.models.User;

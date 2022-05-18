@@ -1,71 +1,44 @@
 package web.dao;
 
-import jakarta.persistence.EntityManager;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.models.User;
 
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<User> getList() {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from User user", User.class)
-                    .getResultList();
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
+        return entityManager.createQuery("SELECT user FROM User user", User.class)
+                .getResultList();
     }
 
     @Override
     public User getById(long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("select user from User user where user.id=:id", User.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
+        return entityManager.find(User.class, id);
     }
 
+    @Transactional
     @Override
     public void store(User user) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
-        }
+        entityManager.persist(user);
     }
 
+    @Transactional
     @Override
     public void update(User user) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.createQuery("update User set firstName=:firstName, lastName=:lastName where id=:id")
-                    .setParameter("id", user.getId())
-                    .setParameter("firstName", user.getFirstName())
-                    .setParameter("lastName", user.getLastName())
-                    .executeUpdate();
-            session.getTransaction().commit();
-        }
+        entityManager.merge(user);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.createQuery("delete User where id=:id")
-                    .setParameter("id", id)
-                    .executeUpdate();
-            session.getTransaction().commit();
-        }
+        entityManager.remove(entityManager.find(User.class, id));
     }
 }
