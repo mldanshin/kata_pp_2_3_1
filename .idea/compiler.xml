@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="web" />
+        <module name="kata_pp_2_3_1" />
       </profile>
     </annotationProcessing>
   </component>
